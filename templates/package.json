@@ -1,0 +1,7 @@
+{
+  "name": "website-to-wechat-templates",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test test/*.test.mjs" },
+  "dependencies": { "fast-xml-parser": "^5.2.0", "postgres": "^3.4.5" }
+}

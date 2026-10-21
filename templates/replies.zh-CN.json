@@ -1,0 +1,11 @@
+{
+  "subscribe": "感谢关注！\n如果你是从网站过来登录的：把网页上的 6 位登录码直接发给我就行。\n\n（这里接你原来的欢迎语）",
+  "default": "",
+  "menus": [
+    { "name": "关于作者", "key": "ABOUT_AUTHOR", "reply": "（原菜单文案）" }
+  ],
+  "keywords": [
+    { "keyword": "教程", "mode": "exact", "reply": "（原关键词回复，exact = 全匹配）" },
+    { "keyword": "模板", "mode": "contains", "reply": "（原关键词回复，contains = 半匹配）" }
+  ]
+}
