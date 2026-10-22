@@ -72,6 +72,8 @@ TEST_DATABASE_URL=postgres://postgres:pw@localhost:55432/postgres npm test   # �
 
 ## 作者
 
-Ben（[@littlebena](https://x.com/littlebena)），公众号「AI工具进化论」。
+Ben（[benx.ai](https://benx.ai) · [@littlebena](https://x.com/littlebena)），公众号「AI工具进化论」。
+
+配套的公众号排版与发布 skill：[gzh-studio](https://github.com/littleben/gzh-studio)。
 
 MIT License
