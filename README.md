@@ -34,7 +34,7 @@ Codex / 其他支持 Agent Skills 的工具：把仓库放进对应的 skills �
 
 然后对 Agent 说：
 
-> 用 website-to-wechat skill，给我的网站加上公众号登录，下载 PDF 必须登录。
+> 用 website-to-wechat skill，给我的网站加上公众号登录。先分析我的网站和数据，找出用户最想要、值得用登录来换的东西，提出转化路径给我确认，再动手。
 
 ## 目录
 
