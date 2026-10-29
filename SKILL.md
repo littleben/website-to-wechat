@@ -5,10 +5,12 @@ description: 把网站访客转化成微信公众号粉丝：用「公众号关�
 
 # 网站 → 公众号转化
 
+完整案例：[《我把网站用户转化到公众号，三周涨粉 2 万+（附开源 Skill）》](https://benx.ai/blog/posts/website-to-wechat-followers/)。实际网站：[howtolivebetter.net](https://howtolivebetter.net)。设计登录页、下载引导和同步提醒时，先读 [登录与转化设计](references/login-design.md)，其中包含截图和从网站实现提炼的组件职责。
+
 ## 一句话原理
 
-网站上放一个**值得登录才能拿到的东西**（PDF、模板、进度同步、额度），登录方式**只给公众号**：
-访客关注公众号 → 在公众号里发一个码 → 网站自动登录。每一次登录，都是一次关注 + 一次私信互动。
+网站上放一个**值得登录才能拿到或保存的东西**（PDF、模板、进度同步、额度），在这条转化路径上引导公众号登录：
+访客关注公众号 → 在公众号里发一个码 → 网站自动登录 → 继续下载或保存。面向不同语言和同步等场景，按需要保留邮箱入口；只想拿资料的人也可通过公众号关键词直接获取。
 
 和「在页脚放二维码」相比，差别在于：二维码是可选项，登录是必经路径。
 
@@ -30,7 +32,7 @@ description: 把网站访客转化成微信公众号粉丝：用「公众号关�
 
 ## 用户体验：按访问环境分三条路
 
-这是转化率的关键。howtolivebetter 的数据：约 2/3 的登录走的是手机上的「一键登录链接」，桌面扫码配对只占 1/3。三条路都要做。
+howtolivebetter 统计到一键登录链接打开 6,279 次、配对成功 2,982 次，事件次数约 2 : 1。这两种事件不能直接推算登录人数占比，但说明手机和微信内的路径也需要完整承接。三条路都要做。
 
 | 环境 | 怎么判断 | 体验 |
 |---|---|---|
@@ -69,6 +71,8 @@ description: 把网站访客转化成微信公众号粉丝：用「公众号关�
 
 按 `references/funnel.md` 的诱饵表列出 2–3 个候选路径，写清每个的位置、预计曝光和对体验的打扰程度，**交给用户确认后**再实施。
 
+方案同时说明：登录页承诺什么收益，下载/同步面板怎样承接当下任务，三种浏览环境分别显示什么步骤，提醒何时出现及如何关闭，登录后回到哪里、怎样保留原来的选择和本机记录。参考 `references/login-design.md`，按网站已有设计和多语言资源实现；howtolivebetter 的「10 条 / 7 天」是案例参数，结合实际使用频率选择。
+
 ## 实施步骤
 
 1. **备份**公众号后台的欢迎语、所有关键词回复、自定义菜单文案，写进 `templates/replies.zh-CN.json`。没备份完不要进行第 5 步。
@@ -76,7 +80,7 @@ description: 把网站访客转化成微信公众号粉丝：用「公众号关�
 3. **回调端**：复制 `templates/wechat-crypto.mjs`、`templates/webhook.mjs`、`templates/pairing.mjs`，按 `references/webhook.md` 接到你的框架路由（Next.js Route Handler / Hono / Express 都行，必须是 Node runtime）。
 4. **部署回调**，确认 `GET /api/wechat/webhook` 不被 Cloudflare 挑战、不被登录中间件拦、不被缓存。
 5. **微信后台配置消息推送**：URL、Token、EncodingAESKey、**安全模式**、XML。EncodingAESKey 必须使用微信公众号开发者后台点击「随机生成」得到的 43 位值，并原样复制到服务端 `WECHAT_MP_AES_KEY`；已有配置则沿用后台当前值。不要让 AI 或本地脚本生成 EncodingAESKey。配置截图和具体步骤见 [references/webhook.md](references/webhook.md)。提交即生效。
-6. **网站端**：登录页 / 下载弹窗 / 同步提示接入配对组件，按三种环境分流（`templates/wechat-browser.ts`、`references/funnel.md` 的文案模板）。
+6. **网站端**：按 `references/login-design.md` 设计登录页 / 下载弹窗 / 同步提示，再接入配对组件，按三种环境分流（`templates/wechat-browser.ts`、`references/funnel.md` 的文案模板）。保留登录前的站内返回路径、下载格式和本机进度，登录后接续原任务；所有可翻译文案放入项目现有语言资源。
 7. **账号**：微信新用户没有邮箱。不要伪造「已验证邮箱」；如果框架要求邮箱非空，用不可投递的 `subject@wechat.invalid` 且 `emailVerified=false`，并在展示、支付、找回密码处排除它。老用户必须**先用原方式登录再绑定**，禁止按昵称/邮箱自动合并。
 8. **埋点**：按 `references/analytics.md` 打漏斗事件。
 9. **真机验收**：`references/launch-checklist.md` 逐条过。
@@ -92,6 +96,7 @@ description: 把网站访客转化成微信公众号粉丝：用「公众号关�
 
 ## 参考文件
 
+- [references/login-design.md](references/login-design.md)：登录页截图、场景引导、提醒策略、任务续接与组件职责
 - `references/funnel.md`：诱饵设计、入口位置、三种环境的文案模板
 - `references/webhook.md`：消息推送配置、加解密、关键词路由、迁移旧自动回复、5 秒与幂等
 - `references/analytics.md`：漏斗事件定义、如何算转化率、GA 和数据库对账
