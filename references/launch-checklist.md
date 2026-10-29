@@ -5,6 +5,7 @@
 - [ ] 欢迎语、关键词回复、菜单文案已全部备份并迁入 `replies.zh-CN.json`
 - [ ] 数据库迁移已执行（只新增表，不删数据）
 - [ ] 环境变量全部是服务端变量，没有 `NEXT_PUBLIC_` / `VITE_` 前缀
+- [ ] EncodingAESKey 来自微信公众号开发者后台（新配置点击「随机生成」，已有配置沿用当前值），与服务端 `WECHAT_MP_AES_KEY` 完全一致，未由 AI 或本地脚本生成
 - [ ] 功能开关：`WECHAT_MP_WEBHOOK_ENABLED=true`、`WECHAT_MP_LOGIN_ENABLED=false`，先只开回调
 - [ ] `curl` 回调地址，确认没有 Cloudflare 挑战页、没有 302 到登录页、没有缓存头
 - [ ] 微信后台提交 URL 校验通过

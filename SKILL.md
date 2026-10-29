@@ -75,7 +75,7 @@ description: 把网站访客转化成微信公众号粉丝：用「公众号关�
 2. **建表**：`templates/schema.sql`（验证码/配对码表、限流表、身份映射表）。
 3. **回调端**：复制 `templates/wechat-crypto.mjs`、`templates/webhook.mjs`、`templates/pairing.mjs`，按 `references/webhook.md` 接到你的框架路由（Next.js Route Handler / Hono / Express 都行，必须是 Node runtime）。
 4. **部署回调**，确认 `GET /api/wechat/webhook` 不被 Cloudflare 挑战、不被登录中间件拦、不被缓存。
-5. **微信后台配置消息推送**：URL、Token、EncodingAESKey、**安全模式**、XML。提交即生效。
+5. **微信后台配置消息推送**：URL、Token、EncodingAESKey、**安全模式**、XML。EncodingAESKey 必须使用微信公众号开发者后台点击「随机生成」得到的 43 位值，并原样复制到服务端 `WECHAT_MP_AES_KEY`；已有配置则沿用后台当前值。不要让 AI 或本地脚本生成 EncodingAESKey。配置截图和具体步骤见 [references/webhook.md](references/webhook.md)。提交即生效。
 6. **网站端**：登录页 / 下载弹窗 / 同步提示接入配对组件，按三种环境分流（`templates/wechat-browser.ts`、`references/funnel.md` 的文案模板）。
 7. **账号**：微信新用户没有邮箱。不要伪造「已验证邮箱」；如果框架要求邮箱非空，用不可投递的 `subject@wechat.invalid` 且 `emailVerified=false`，并在展示、支付、找回密码处排除它。老用户必须**先用原方式登录再绑定**，禁止按昵称/邮箱自动合并。
 8. **埋点**：按 `references/analytics.md` 打漏斗事件。

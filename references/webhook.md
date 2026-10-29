@@ -8,9 +8,13 @@
 |---|---|
 | URL | `https://你的域名/api/wechat/webhook`（HTTPS 443） |
 | Token | 随机 32 位，和服务端 `WECHAT_MP_TOKEN` 一致 |
-| EncodingAESKey | 43 位，和 `WECHAT_MP_AES_KEY` 一致 |
+| EncodingAESKey | 在微信公众号开发者后台点击「随机生成」取得的 43 位密钥，原样复制到服务端 `WECHAT_MP_AES_KEY` |
 | 消息加解密方式 | **安全模式** |
 | 数据格式 | XML |
+
+**EncodingAESKey 使用微信公众号开发者后台生成的值，不要让 AI 或本地脚本生成。** 在「配置消息推送」弹窗中，点击 EncodingAESKey 右侧的「随机生成」，将得到的 43 位值原样复制到服务端环境变量 `WECHAT_MP_AES_KEY`，确保后台和服务端使用同一个值。已有配置时，沿用后台当前的 EncodingAESKey。
+
+![微信公众号开发者后台「配置消息推送」弹窗：EncodingAESKey 右侧为「随机生成」，消息加密选择安全模式，数据格式为 XML](../assets/wechat-message-push-config.png)
 
 另外需要两个**不同的**字段，别搞混：
 
@@ -20,10 +24,10 @@
 
 消息验证码登录**不调用** access_token 接口，不需要 AppSecret，也不需要 IP 白名单。
 
-生成密钥：
+Token 和服务端签发登录码用的 `CODE_SECRET` 可以在本地生成；下面的命令不生成 EncodingAESKey：
 
 ```sh
-node -e "const c=require('crypto');console.log('TOKEN='+c.randomBytes(24).toString('base64url'));console.log('AES_KEY='+c.randomBytes(32).toString('base64').slice(0,43));console.log('CODE_SECRET='+c.randomBytes(32).toString('base64url'))"
+node -e "const c=require('crypto');console.log('TOKEN='+c.randomBytes(16).toString('hex'));console.log('CODE_SECRET='+c.randomBytes(32).toString('base64url'))"
 ```
 
 ## 2. 启用前必须做的迁移

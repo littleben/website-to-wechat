@@ -12,7 +12,7 @@ const config = {
   appId: process.env.WECHAT_MP_APP_ID,                  // wx...
   originalId: process.env.WECHAT_MP_ORIGINAL_ID,        // gh_...
   token: process.env.WECHAT_MP_TOKEN,
-  aesKey: process.env.WECHAT_MP_AES_KEY,                // 43 chars
+  aesKey: process.env.WECHAT_MP_AES_KEY,                // 43 位，复制公众号后台生成的 EncodingAESKey，不由 AI/本地脚本生成
   codeSecret: process.env.WECHAT_MP_CODE_SECRET,        // ≥ 32 random bytes
 }
 config.namespace = `${config.appId}:mysite`             // one namespace per site sharing the account

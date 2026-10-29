@@ -36,10 +36,20 @@ Codex / 其他支持 Agent Skills 的工具：把仓库放进对应的 skills �
 
 > 用 website-to-wechat skill，给我的网站加上公众号登录。先分析我的网站和数据，找出用户最想要、值得用登录来换的东西，提出转化路径给我确认，再动手。
 
+## 公众号消息推送配置
+
+在微信公众号开发者后台进入「消息与事件推送」，打开「配置消息推送」。**EncodingAESKey 使用后台点击「随机生成」得到的 43 位密钥，不要让 AI 或本地脚本生成。** 将它原样复制到服务端环境变量 `WECHAT_MP_AES_KEY`，保持与后台一致；已有配置则沿用后台当前值。消息加密选择「安全模式」，数据格式选择 XML。
+
+![微信公众号开发者后台「配置消息推送」：点击 EncodingAESKey 右侧的「随机生成」获取密钥](assets/wechat-message-push-config.png)
+
+完整字段说明及启用前的自动回复迁移步骤见 [消息推送配置指南](references/webhook.md)。
+
 ## 目录
 
 ```
 SKILL.md                       主流程（Agent 读这个）
+assets/
+  wechat-message-push-config.png  公众号消息推送配置截图
 references/
   funnel.md                    诱饵、入口位置、三种环境的界面和文案
   webhook.md                   消息推送配置、迁移旧自动回复、5 秒与幂等、安全
